@@ -20,7 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->string('name')->unique();
+            $table->string('name');
             $table->integer('priority');
             $table->timestamps();
         });
