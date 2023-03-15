@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="py-12">
-        @livewire('project-component')
+        <livewire:project-component>
     </div>
 </x-app-layout>
