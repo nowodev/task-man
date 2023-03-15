@@ -4,9 +4,12 @@ namespace App\Http\Livewire;
 
 use App\Models\Task;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class TaskComponent extends Component
 {
+    use LivewireAlert;
+
     public $name;
     public $task_id;
     public $project;
@@ -40,8 +43,10 @@ class TaskComponent extends Component
 
         if ($this->task_id) {
             Task::find($this->task_id)->update($data);
+            $this->alert('success', 'Task Updated');
         } else {
             Task::create(['project_id' => $this->selected_project] + $data);
+            $this->alert('success', 'Task Created');
         }
 
         $this->emit('refreshComponent');
@@ -69,6 +74,7 @@ class TaskComponent extends Component
     {
         Task::find($id)->delete();
         $this->emit('refreshComponent');
+        $this->alert('warning', 'Task Deleted');
     }
 
     public function refreshComponent()
