@@ -49,6 +49,11 @@ class TaskComponent extends Component
         $this->createTask = false;
     }
 
+    public function cancel()
+    {
+        $this->createTask = false;
+    }
+
     public function edit($id)
     {
         $task          = Task::find($id);

@@ -2,7 +2,7 @@
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900">
             <div class="px-4">
-                <x-primary-button wire:click="$toggle('createTask')">Create Task</x-primary-button>
+                <x-primary-button wire:click="$set('createTask', 1)">Create Task</x-primary-button>
             </div>
 
             <div class="flex flex-col mt-8 px-4">
@@ -84,7 +84,7 @@
 
     {{-- Create/Edit  --}}
     @if ($selected_project > 0 && $createTask)
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-8">
             <div class="p-6 text-gray-900">
                 <div class="w-full px-4 md:w-1/2 lg:w-1/3">
                     <div class="mb-12">
@@ -110,6 +110,7 @@
                             <x-error />
                         </div>
 
+                        <x-secondary-button wire:click="cancel" class="mr-2">Cancel</x-secondary-button>
                         <x-primary-button wire:click="submit">Save</x-primary-button>
                     </div>
                 </div>
