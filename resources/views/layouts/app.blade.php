@@ -39,5 +39,7 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <x-livewire-alert::scripts />
+
+        <script src="https://unpkg.com/@nextapps-be/livewire-sortablejs@0.2.0/dist/livewire-sortable.js"></script>
     </body>
 </html>
