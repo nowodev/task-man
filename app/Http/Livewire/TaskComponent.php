@@ -21,9 +21,15 @@ class TaskComponent extends Component
 
     protected $listeners = ['refreshComponent', 'projectSelected'];
 
+    /**
+     * Before this child component is rendered, the tasks belonging
+     * to the selected project are preloaded, to be rendered.
+     *
+     */
     public function mount($selected_project, $tasks)
     {
         $this->tasks            = $tasks;
+
         $this->selected_project = $selected_project;
     }
 
@@ -39,17 +45,23 @@ class TaskComponent extends Component
             'priority' => 'required',
         ]);
 
-
         if ($this->task_id) {
             Task::find($this->task_id)->update($data);
+
             $this->alert('success', 'Task Updated');
         } else {
             Task::create(['project_id' => $this->selected_project] + $data);
+
             $this->alert('success', 'Task Created');
         }
 
+        // refresh component after saving
         $this->emit('refreshComponent');
+
+        // empty form parameters for next use
         $this->reset('name', 'priority', 'task_id');
+
+        // disable create/update form
         $this->createTask = false;
     }
 
@@ -60,9 +72,8 @@ class TaskComponent extends Component
 
     public function edit($id)
     {
-        $task          = Task::find($id);
-        $this->task_id = $id;
-
+        $task             = Task::find($id);
+        $this->task_id    = $id;
         $this->editing    = true;
         $this->createTask = true;
         $this->name       = $task->name;
@@ -72,7 +83,9 @@ class TaskComponent extends Component
     public function delete($id)
     {
         Task::find($id)->delete();
+
         $this->emit('refreshComponent');
+
         $this->alert('warning', 'Task Deleted');
     }
 
@@ -86,6 +99,7 @@ class TaskComponent extends Component
     public function projectSelected($value)
     {
         $this->selected_project = $value;
+
         $this->tasks            = Task::where('project_id', $value)
             ->orderBy('priority', 'ASC')
             ->get();
@@ -95,7 +109,9 @@ class TaskComponent extends Component
     {
         foreach ($data as $sort) {
             Task::find($sort['value'])->update(['priority' => $sort['order']]);
+
             $this->emit('refreshComponent');
+
             $this->alert('info', 'Priority updated');
         }
     }

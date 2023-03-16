@@ -25,10 +25,20 @@ class ProjectComponent extends Component
         return view('livewire.project-component');
     }
 
+    /**
+     * This is a livewire lifecycle hook that gets triggered whe the 'project' property is updated.
+     * Once a project is selected, all tasks belonging to the project are queried. An event is
+     * then emitted to the child component 'TaskComponent' and the tasks are populated there.
+     *
+     */
     public function updatedProject($value)
     {
         $this->selected_project = $value;
-        $this->tasks            = Task::where('project_id', $value)->get();
+
+        $this->tasks            = Task::where('project_id', $value)
+            ->orderBy('priority', 'ASC')
+            ->get();
+
         $this->emit('projectSelected', $value);
     }
 }
