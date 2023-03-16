@@ -29,6 +29,6 @@ class ProjectComponent extends Component
     {
         $this->selected_project = $value;
         $this->tasks            = Task::where('project_id', $value)->get();
-        $this->emit('projectUpdated', $value);
+        $this->emit('projectSelected', $value);
     }
 }

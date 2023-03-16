@@ -30,25 +30,25 @@
                                     </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody wire:sortable="changePriority()">
                                     @forelse($tasks as $task)
-                                        <tr>
-                                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                        <tr wire:sortable.handle wire:sortable.item="{{ $task->id }}" wire:key="task-{{ $task->id }}">
+                                            <td  class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{ $task->name }}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                            <td  class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{ $task->priority }}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                            <td  class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <p class="text-gray-900 whitespace-no-wrap">
                                                     {{ $task->created_at->diffForHumans() }}
                                                 </p>
                                             </td>
-                                            <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                                            <td  class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                                 <div class="flex items-center justify-end space-x-3">
                                                     <x-secondary-button wire:click="edit({{ $task->id }})">
                                                         Edit
@@ -80,7 +80,6 @@
             </div>
         </div>
     </div>
-
 
     {{-- Create/Edit  --}}
     @if ($selected_project > 0 && $createTask)

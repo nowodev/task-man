@@ -19,8 +19,7 @@ class TaskComponent extends Component
     public $editing    = false;
     public $createTask = false;
 
-    protected $listeners = ['refreshComponent', 'projectUpdated'];
-
+    protected $listeners = ['refreshComponent', 'projectSelected'];
 
     public function mount($selected_project, $tasks)
     {
@@ -79,12 +78,25 @@ class TaskComponent extends Component
 
     public function refreshComponent()
     {
-        $this->tasks = Task::where('project_id', $this->selected_project)->get();
+        $this->tasks = Task::where('project_id', $this->selected_project)
+            ->orderBy('priority', 'ASC')
+            ->get();
     }
 
-    public function projectUpdated($value)
+    public function projectSelected($value)
     {
         $this->selected_project = $value;
-        $this->tasks            = Task::where('project_id', $value)->get();
+        $this->tasks            = Task::where('project_id', $value)
+            ->orderBy('priority', 'ASC')
+            ->get();
+    }
+
+    public function changePriority($data)
+    {
+        foreach ($data as $sort) {
+            Task::find($sort['value'])->update(['priority' => $sort['order']]);
+            $this->emit('refreshComponent');
+            $this->alert('info', 'Priority updated');
+        }
     }
 }
